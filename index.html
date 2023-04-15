@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/appstyles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/appstyles.css">
+
+        <title>A buyer's guide to HDB resale flats</title>
+        <script defer type="text/javascript" src="appscripts/main.js">
+        </script>
+    </head>
+
+    <body>
+        <div class = "parent">
+
+        <div class="header" id="header">
+            <div class="header-text">
+            <h1 id="title">A buyer's guide to HDB resale flats</h1>
+            <h2>Understanding the HDB resale market and your purchase eligibility</h2>
+            </div>
+        </div>
+    
+        <div class="sidenav">
+            <div class= "sidenavbuttons">
+            <a href="#header">Home</a>
+            <a href="#introduction">Introduction</a>
+            <a href="#calculator">Eligibility Calculator</a>
+            <a href="#year">Year of Transaction</a>
+            <a href="#location">Location</a>
+            <a href="#age">Age of Flat</a>
+            <a href="#size">Size of Flat</a>
+            <a href="#storey">Storey Range</a>
+            <a href="#conclusion">Conclusion</a>
+            <a href="#credits">Credits and Project Documentation</a>
+            </div>
+        </div>
+
+        <div class="introduction" id="introduction">
+            <h1>Introduction</h1>
+            <p>
+                From BTO flat availability to sky-high resale flat prices, the state of public housing today has been a major cause for concern for many newly-wed couples. 
+                They find themselves trying multiple times to ballot for a BTO flat that is two to three times oversubscribed, or potentially drowning in debt with resale prices that have been climbing for 31 straight months, 
+                as of February 2023. A 5-room Pinnacle@Duxton Flat in the heart of the CBD <a href= "https://tnp.straitstimes.com/news/singapore/hdb-resale-prices-rise-5-room-pinnacleduxton-flat-sold-134m">sold for $1.34 million</a>, a testament to the dire situation. 
+                Elsewhere across the island, flats in towns like Bishan and Redhill continue to be extremely popular, attracting tons of interest from prospective buyers.
+            </p>
+            <figure>
+            <img src="media/pinnacle.jpeg" alt="Pinnacle@Duxton" class="generalpicture">
+            <figcaption class="generalcaption">The Pinnacle@Duxton HDB Estate comprises of 7 residential towers of 50 storeys each. It is the tallest public housing development in the world. <br> Source: <a href="https://untouristsingapore.wordpress.com/2013/10/02/pinnacle-duxton-singapores-public-housing-rises-to-new-heights/">UnTourist Singapore</a></figcaption>
+            </figure>
+            <p>
+                Introducing Mr and Mrs Tan, a newly-wed couple looking for their first home. 
+                We will be joining them on their journey in purchasing an HDB flat. 
+            </p>
+            <figure>
+                <img src="media/couple.jpg" alt="Couple" class="generalpicture">
+                <figcaption class="generalcaption">Mr and Mrs Tan's Wedding Photo <br> Source: <a href = "https://www.pexels.com/search/asian%20couple/">Pexels</a></figcaption>
+            </figure>
+            <p>
+                As they would like to live closer to their parents who stay in Toa Payoh, they are thinking of purchasing a resale flat as new BTO flats are hard to come by in the area. 
+                They decided to take a look at the  <a href ="https://data.gov.sg/dataset/resale-flat-prices">resale flat data </a>from 2017-2022 provided by the HDB. 
+            </p>
+        </div>
+
+        <div class ="calculator" id="calculator">
+            <h1>Eligibility and Subsidy Calculator</h1>
+            <p>
+                With the complex web of eligibility requirements, Mr and Mrs Tan are confused about whether they are eligible to purchase a resale flat. 
+                Fortunately, as married Singapore citizens above 21, who do not own any properties, they can purchase a resale flat on the market. 
+                You can check your eligibility to purchase a resale flat with the calculator below! 
+                For more information, you can also refer to <a href="https://www.hdb.gov.sg/business/estate-agents-and-salespersons/buying-a-resale-flat/eligibility">this HDB page. </a>
+            </p>
+
+            <form id="eligibilityCalculator">
+                <table class="calculator" id="eligibility">
+                        <tr>
+                            <td colspan="2" style = "text-align: center; font-weight: bold;">
+                                <p>Please input the following details to obtain more information <br> about your eligibility to purchase a resale flat</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main">What is your citizenship status</td>
+                            <td>
+                                <input type="radio" id="SC" name="citizenShipStatus" value="SC">
+                                <label for="SC">Singapore Citizen</label><br>
+                                <input type="radio" id="PR" name="citizenShipStatus" value="PR">
+                                <label for="PR">Permanent Resident (PR)</label><br>
+                                <input type="radio" id="Foreigner" name="citizenShipStatus" value="Foreigner">
+                                <label for="Foreigner">Foreigner</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main">What is your age?</td>
+                            <td style="text-align: center;"><input type= "range" min="1" max="100" value="50" class="slider" id="ageSlider" name="Age" onchange="updateAgeValue(this.value)">
+                                <p id="ageValue" style = "text-align: center;"></p>
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="main">What is your marital status?</td>
+                            <td>
+                                <input type="radio" id="Single" name="MaritalStatus" value="Single">
+                                <label for="Single">Single</label><br>
+                                <input type="radio" id="Married" name="MaritalStatus" value="Married">
+                                <label for="PR">Married</label><br>
+                                <input type="radio" id="Divorced" name="MaritalStatus" value="Divorced">
+                                <label for="Divorced">Divorced</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="main">Do you own or have an interest in any local or overseas private residential property?</td>
+                            <td>
+                                <input type="radio" id="Own" name="OwnProperties" value="OwnProperties">
+                                <label for="Own">Yes</label><br>
+                                <input type="radio" id="No-own" name="OwnProperties" value="NoProperties">
+                                <label for="No-own">No</label><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style = "text-align: center;"><input type="submit" value="Submit" class="button"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style = "text-align: center; font-weight: bold;" ><p id="eligibilityStatus"> </p></td>
+                        </tr>
+                </table>     
+            </form>
+            <br>
+            <p>
+                As they had just started work, Mr and Mrs Tan are worried about financing their new resale flat. 
+                Fortunately, with the CPF Housing Grant, they are eligible to receive a housing subsidy of up to $80,000 
+                to help with the purchase of a resale flat based on their average gross monthly household income of $6500. 
+                The eligibility calculator below can help you determine your eligibility for the CPF Housing Grant. 
+                For more information, please refer to <a href="https://www.hdb.gov.sg/residential/buying-a-flat/flat-and-grant-eligibility/couples-and-families/cpf-housing-grants-for-resale-flats-families">this HDB page.</a>                
+            </p>
+
+            <form>
+                <table class="calculator" id="subsidy">
+                    <tr>
+                        <td colspan="2" style="font-weight:bold;">Please enter your income to see if you are eligible for the CPF Housing Grant</td>
+                    </tr>
+                    <tr>
+                        <td class="main">What is your average gross monthly household income?</td>
+                        <td><input type="text" name="income" id="income-text"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                             <p id="subsidy-result" style = "text-align: center; font-weight: bold;" >
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div class= "year" id = "year">
+            <h1>Year of transaction</h1>
+            <p>
+                With prices rising over the past 5 years since 2017, Mr and Mrs Tan are worried about their financial ability to purchase a resale flat. 
+                Prices have steadily risen since 2019, reaching an average of $549,695 in 2022, from the lowest point of $432,137 in 2019, 
+                an increase of over $117,000. During the period of 2017-2022, resale flat prices <a href="https://www.channelnewsasia.com/singapore/hdb-flat-resale-price-index-rpi-2022-sales-volume-bto-3179506">rose most significantly</a> in 2021, at 12.7%, 
+                before slowing to 10.3% in 2022. 
+            </p>
+            <canvas id="resale-year" class="graph" width="1000" height="500"></canvas>
+            <p>
+                Despite the sharp increase in prices, Mr and Mrs Tan have still decided to purchase a resale flat because they prefer a more central location that is closer to their workplaces in the CBD.
+            </p>
+        </div> 
+
+        <div class = "location" id = "location">
+            <h1>Location of flat</h1>
+            <p>
+                Mr and Mrs Tan began their journey looking for a suitable flat by the location. 
+                They first looked at Toa Payoh, where their elderly parents live. 
+                As a mature estate served by three MRT stations - Toa Payoh, Braddell and Caldecott, Toa Payoh is an incredibly well connected estate. 
+                It also boasts multiple hawker centers, a library and a sports complex across the estate. 
+                With the best of amenities, it is no surprise that of the top 10 highest priced resale flats from 2017-2022, 3 were from Toa Payoh, with the most expensive sold at $1.38 million. 
+            </p>
+            <div class="gallery">
+            <table class="TPY">
+                <tr>
+                    <td>
+                    <figure>
+                        <img src="media/toapayohmrt.png" class="TPYpicture" alt="Toa Payoh MRT">
+                        <figcaption class="TPYcaption">Toa Payoh MRT <br> Source: <a href="https://landtransportguru.net/toa-payoh-station//">Land Transport Guru</a></figcaption>
+                    </figure> 
+                    </td>
+                    <td>
+                    <figure> 
+                        <img src="media/toapayohlibrary.png" class="TPYpicture" alt="Toa Payoh Library">
+                        <figcaption class="TPYcaption">Toa Payoh Library <br> Source: <a href="https://www.streetdirectory.com/stock_images/travel/preview/15997295710338/48399/toa_payoh_public_library/">Street Directory</a></figcaption>
+                    </figure> 
+                    </td>
+                    <td>
+                    <figure> 
+                        <img src="media/toapayohhawker.png" class="TPYpicture" alt="Toa Payoh Hawker">
+                        <figcaption class="TPYcaption">Toa Payoh Hawker Centre <br> Source: <a href="https://www.misstamchiak.com/blk-75-lorong-5-toa-payoh-food-centre/">misstamchiak</a></figcaption>
+                    </figure>  
+                    </td>
+                    <td>
+                        <figure> 
+                            <img src="media/toapayohsports.png" class="TPYpicture" alt="Toa Payoh Sports">
+                            <figcaption class="TPYcaption">Toa Payoh Sports Complex <br> Source: <a href="https://www.myactivesg.com/facilities/toa-payoh-sports-centre">ActiveSG</a></figcaption>
+                        </figure> 
+                        </td>
+                </tr>
+            </table>
+            </div>
+            <p>  
+                They also looked at other locations like Queenstown and Bukit Merah, which are equally convenient for them. 
+                However, they found that these towns have had some of the priciest flats in Singapore, with the most expensive being a flat in Queenstown that sold for $1.4 million. 
+                They realised that a centrally located flat is out of reach for them as the flats that are closer to the CBD tend to fetch the highest prices. 
+            </p>
+                <canvas id="highest-price-chart" width="800" height="400"></canvas> 
+                <div style = "display: flex; justify-content: center;">
+                <button type ="button" id="moreButton" class="button">More HDB Flats</button>
+                </div>
+                <canvas id="lowest-price-chart" width="800" height="400"></canvas>
+            <p>
+                Out of curiosity, they also looked at the cheapest resale flats in Singapore, and found that unexpectedly, these flats were located in towns like Bukit Merah, Geylang and Toa Payoh, 
+                all of which are very centrally located. The cheapest resale flat sold in the past 6 years was actually in Toa Payoh, at $140000. 
+                Mr and Mrs Tan were very pleased when they found out that their dream of purchasing a centrally located flat was not that out of reach afterall. 
+            </p>
+            <div class="gallery">
+                <table class="TPY">
+                    <tr>
+                        <td>
+                        <figure>
+                            <img src="media/sengkang2.png" class="TPYpicture" alt="Sengkang">
+                            <figcaption class="TPYcaption">Sengkang <br> Source: <a href="https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/sengkang">HDB</a></figcaption>
+                        </figure> 
+                        </td>
+                        <td>
+                        <figure> 
+                            <img src="media/woodlands.png" class="TPYpicture" alt="Woodlands">
+                            <figcaption class="TPYcaption">Woodlands <br> Source: <a href="https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/woodlands">HDB</a></figcaption>
+                        </figure> 
+                        </td>
+                        <td>
+                        <figure> 
+                            <img src="media/jurongeast.png" class="TPYpicture" alt="Jurong East">
+                            <figcaption class="TPYcaption">Jurong East <br> Source: <a href="https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/jurong-east">HDB</a></figcaption>
+                        </figure>  
+                        </td>
+                        <td>
+                            <figure> 
+                                <img src="media/bedok.png" class="TPYpicture" alt="Bedok">
+                                <figcaption class="TPYcaption">Bedok<br> Source: <a href="https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/bedok">HDB</a></figcaption>
+                            </figure> 
+                            </td>
+                    </tr>
+                </table>
+                </div>
+            <p>They also decided to take a look at the general trends for resale flat prices across the island. 
+                They decided to narrow down their options to 5 towns, Toa Payoh, Sengkang, Woodlands, Jurong East and Bedok because these towns are relatively well connected to the rest of the island.
+            </p>
+            <div id="flatlocation-price" width="1000" height="500"></div>
+            <p>
+                They found that flats sold in Toa Payoh indeed had the largest spread of values, while the other towns had a relatively similar spread. 
+                Of these towns, Bedok had the lowest median price, at 392k which is surprising given its status as a mature estate with numerous amenities, including the newly built integrated development, Heartbeat@Bedok. 
+            </p>
+            <figure>
+                <img src="media/heartbeatbedok.jpg" class="generalpicture">
+                <figcaption class="generalcaption">Heartbeat@Bedok houses the Kampong Chai Chee Community Club, Bedok Public Library, ActiveSG East Bedok Sports Centre, Bedok Polyclinic and a Senior Activity Centre in one complex. <br> Source: <a href="https://www.pa.gov.sg/our-network/heartbeatatbedok/hub-info/">People's Association</a></figcaption>
+            </figure>
+        </div>
+
+        <div class = "age" id = "age">
+            <h1>Age of flat</h1>
+            <p>
+                Mr and Mrs Tan decided to look into the average prices for HDB flats based on their age. 
+                Unsurprisingly, newer flats that were built between 2011-2019 priced the highest at $546482. 
+                Due to the HDB Minimum Occupancy Period of 5 years, some of the new HDB developments that Mr and Mrs Tan were considering like Dakota Breeze are not up for purchase yet. 
+            </p>
+            <canvas id="flat-age" class="graph" width="1000" height="500"></canvas>
+            <p>
+                On the other hand, the flats with the lowest average price were those completed between 1966-1970 at $282000. 
+                Mr and Mrs Tan then realised that the age of the flats is the likely reason that the cheapest resale flats were located in towns like Toa Payoh. 
+                Completed between 1966-1970, Toa Payoh was the second HDB town to be developed. 
+            </p>
+            <figure>
+                <img src="media/oldtoapayoh.png" class="generalpicture"> 
+                <figcaption class="generalcaption">Toa Payoh New Town in the 1970s <br> Source: <a href = "http://graphics.straitstimes.com/STI/STIMEDIA/2015/slider/microsite/index.html#tpy-hub">The Straits Times</a></figcaption>
+            </figure>
+            <p>    
+                Hence, many older flats have around 40 to 50 years out of their 99 years lease left and are more likely to fetch a significantly lower price given its rapid depreciation. 
+                Mr and Mrs Tan decided to look at newer towns that are more affordable instead.
+            </p>
+        </div>
+
+        <div class = "size" id = "size">
+            <h1>Distribution of flat types across different towns</h1>
+            <p>
+                Mr and Mrs Tan decided to look at resale flats in Sengkang, Woodlands, Jurong East, Bedok and Toa Payoh to see the distribution of the size of flats sold on the resale market. 
+                As they plan to have 2 children, Mr and Mrs Tan want to purchase at least a 4-room flat, which would provide them with more space for their growing family. Click on the buttons below to see the distribution of flats across the 5 towns.
+            </p>
+            <canvas id="flat-size" class= "graph" width="800" height="400"></canvas>
+            <div id= "sizebuttons" style="display: flex; justify-content: center;">
+            <button type="button" class = "button" id="Sengkang" value="Sengkang">Sengkang</button>
+            <button type="button" class = "button" id="Woodlands" value="Woodlands">Woodlands</button>
+            <button type="button" class = "button" id="JurongEast" value="JurongEast">Jurong East</button>
+            <button type="button" class = "button" id="Bedok" value="Bedok">Bedok</button>
+            <button type="button" class = "button" id="ToaPayoh" value="ToaPayoh">Toa Payoh</button>
+            </div>
+            <p>
+                They found that newer towns like Sengkang and Woodlands were more likely to have larger flats sold on the resale market, where 91% and 87% of resale flats sold are 4-room flats and larger. 
+                On the other hand, older towns like Jurong East and Bedok, 65% and 58% of resale flats sold are 4-room and larger. 
+                They decided on Sengkang as it is the most likely to have a 4-room flat for sale, with 50% of resale flats sold being of that type.
+            </p>
+        </div>
+
+        <div class = "storey" id = "storey">
+            <h1>Storey range of flat</h1>
+            <p>
+                Having decided on the potential location of their new flat, Mr and Mrs Tan started looking at individual developments. They were wowed by the heights of many HDB flats today, with newer developments like Skyville@Dawson reaching heights of over 40 storeys. 
+            </p>
+            <canvas id="flat-storey" class="graph" width="1000" height="500"></canvas>
+            <p>
+                They found that flats on lower floors indeed sell for much lower prices than those on higher floors. 
+                Flats on floors 1 to 12 share quite similar price ranges, but there is a significant jump between the 16th to the 18th floor, and 19th to 21st floor. 
+                This may be due to the lower availability of flats above the 20th floor as most HDBs today do not reach the heights of the taller HDBs which have over 30 floors. 
+            </p>
+            <figure>
+                <img src="media/dawson.png" class="generalpicture" alt="Skyville@Dawson">
+                <figcaption class="generalcaption">Completed in 2016, Skyville@Dawson houses 960 flats across 46 floors. It is among the tallest HDB developments in Singapore. <br> Source: <a href = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstackedhomes.com%2Feditorial%2Fskyville-dawson-review%2F&psig=AOvVaw0FJXjGHtW79zIg_ahhrK5d&ust=1681635241082000&source=images&cd=vfe&ved=0CBMQjhxqFwoTCMCKlcvBq_4CFQAAAAAdAAAAABAE">Stacked Homes</a></figcaption>
+            </figure>
+            <p>
+                After pondering on this for a while, Mr and Mrs Tan decided that a lower floor might be better, considering the potential problem of lift breakdowns and Mrs Tan's fear of heights. 
+                They decided to purchase a flat between the 10th - 12th storey instead.
+            </p>
+        </div>
+
+        <div class = "conclusion" id ="conclusion">
+            <h1>Conclusion</h1>
+            <figure>
+                <img src="media/Sengkang.png" class="generalpicture">
+                <figcaption class="generalcaption" alt="HDB Flats in Sengkang">HDB flats in Sengkang <br> Source: <a href = "https://www.hdb.gov.sg/about-us/history/hdb-towns-your-home/sengkang">HDB</a></figcaption>
+            </figure>
+            <p>Finally, Mr and Mrs Tan decided on purchasing a 4-room resale flat in Sengkang between the 15th to 25th storey because of its relatively higher availability. 
+                While it may not be as central as their original preferred town, Toa Payoh, its relatively young flat age ensures that the flat would still maintain its value for years to come. 
+                Besides, they are also eligible for a CPF Housing Grant, which reduces their financial burden as they prepare to start their new family!
+            </p>
+        </div>
+
+        <div class = "credits" id = "credits">
+            <p> This project is done by Chong Si Hua Xavier (A0252900N) as part of the NM2207 Module</p>
+            <p> Project documentation can be found at the <a href="https://docs.google.com/document/d/1Z2EGcIS5d6_1iFqQcAVo6dek020gbr2x6cK3rGnv6U0/edit">link here.</a></p>
+        </div>
+    </div>
+
+    </body>
+
+</html>
